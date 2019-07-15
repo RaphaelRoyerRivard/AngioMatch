@@ -34,6 +34,9 @@ avg = avg - avg_avg
 avg_std = np.average(std)
 std = std - avg_std
 
+N = 40
+averaged_std_moving_average = np.convolve(std, np.ones((N,))/N, mode='same')
+
 # plt.subplot(1, 2, 1)
 # plt.axvspan(20, 60, color='y')
 # plt.axvspan(60, 124, color='g')
@@ -46,7 +49,10 @@ std = std - avg_std
 # plt.axvspan(20, 60, color='y')
 # plt.axvspan(60, 124, color='g')
 # plt.axvspan(124, 170, color='y')
+plt.axhline(0, color='r')
 plt.plot(std, color='black')
+plt.plot(averaged_std_moving_average, color='b')
+plt.plot(std - averaged_std_moving_average, color='orange')
 plt.title("Global pixel intensity std")
 plt.xlabel("frame # in sequence")
 plt.ylabel("pixel intensity std (avg std subtracted)")
