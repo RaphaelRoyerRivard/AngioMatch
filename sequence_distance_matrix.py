@@ -3,6 +3,8 @@ import numpy as np
 from os import walk
 import re
 from matplotlib import pyplot as plt
+import time
+
 
 base_path = r'\\primnis.gi.polymtl.ca\dfs\cheriet\Images\Cardiologie\Angiographie'
 for path, subfolders, files in walk(base_path):
@@ -26,23 +28,32 @@ for path, subfolders, files in walk(base_path):
     if len(frames) == 0:
         continue
 
-    print(path)
+    print(len(frames), "frames in", path)
 
+    frames = np.array(frames)
+
+    # print(frames.shape)
+    # print(frames.swapaxes(1, 2).shape)
+
+    start_time = time.time()
     distances = []
     for i in range(len(frames)):
         print(i)
-        distances_i = []
-        for j in range(len(frames)):
-            if j < i:
-                distances_i.append(distances[j][i])
-            elif j == i:
-                distances_i.append(0)
-            else:
-                val = np.sum(np.abs(frames[i] - frames[j]))
-                distances_i.append(val)
-        distances.append(distances_i)
+        distances.append(frames - frames[i])
+        # distances_i = []
+        # for j in range(len(frames)):
+        #     if j < i:
+        #         distances_i.append(distances[j][i])
+        #     elif j == i:
+        #         distances_i.append(0)
+        #     else:
+        #         val = np.sum(np.abs(frames[i] - frames[j]))
+        #         distances_i.append(val)
+        # distances.append(distances_i)
     distances = np.array(distances)
 
+    elapsed_time = time.time() - start_time
+    print("Elapsed time:", elapsed_time, "seconds")
     plt.imshow(distances)
     plt.colorbar()
     plt.show()
