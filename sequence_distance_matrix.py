@@ -5,8 +5,8 @@ import re
 from matplotlib import pyplot as plt
 import time
 
-
-base_path = r'\\primnis.gi.polymtl.ca\dfs\cheriet\Images\Cardiologie\Angiographie'
+skip_first = True
+base_path = r'C:\Users\root\Data\Angiographie'
 for path, subfolders, files in walk(base_path):
     frames = []
     gradients = []
@@ -26,6 +26,10 @@ for path, subfolders, files in walk(base_path):
         gradients.append(gradient)
 
     if len(frames) == 0:
+        continue
+
+    if skip_first:
+        skip_first = False
         continue
 
     print(len(frames), "frames in", path)
@@ -49,7 +53,7 @@ for path, subfolders, files in walk(base_path):
     manual_distances = []
     for i in range(len(frames)):
         print(i*100/len(frames), "%")
-        # with broadcast
+        # # with broadcast
         # distance_matrix = np.abs(frames - frames[i])
         # distance_vector = np.sum(distance_matrix, axis=(1, 2))
         # distances.append(distance_vector)
@@ -79,7 +83,7 @@ for path, subfolders, files in walk(base_path):
     # plt.subplot(1, 3, 2)
     plt.imshow(manual_distances)
     plt.colorbar()
-    plt.title("Without broadcast")
+    plt.title("Distance matrix of pixel intensity")
     #
     # plt.subplot(1, 3, 3)
     # plt.imshow(np.abs(manual_distances - distances))

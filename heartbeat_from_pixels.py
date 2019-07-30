@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 avg = []
 std = []
 for i in range(1, 229):
-    img_path = rf"\\primnis.gi.polymtl.ca\dfs\cheriet\Images\Cardiologie\Angiographie\AA-4\export\LCA_30LAO25CAU\DIRW0019-Frame{i}.jpg"
-    # img_path = rf"\\primnis.gi.polymtl.ca\dfs\cheriet\Images\Cardiologie\Angiographie\AC-1\export\LCA_LAT\DIRW0013-Frame{i}.jpg"
+    img_path = rf"C:\Users\root\Data\Angiographie\AA-4\export\LCA_30LAO25CAU\DIRW0019-Frame{i}.jpg"
+    # img_path = rf"C:\Users\root\Data\Angiographie\AC-1\export\LCA_LAT\DIRW0013-Frame{i}.jpg"
     img = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
     avg.append(np.average(img))
     std.append(np.std(img))
@@ -76,6 +76,8 @@ for i, value in enumerate(smoothed_std):
 # plt.axvspan(20, 60, color='y')
 # plt.axvspan(60, 124, color='g')
 # plt.axvspan(124, 170, color='y')
+print("mins", local_minimas)
+print("maxs", local_maximas)
 for local_minima in local_minimas:
     plt.axvline(local_minima, color='pink')
 for local_maxima in local_maximas:

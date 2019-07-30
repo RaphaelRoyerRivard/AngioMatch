@@ -1,0 +1,10 @@
+bad hb detections:
+
+AC1 LCA_45LAO   shows 14 or 14 but the real is 11
+AC1 LCA_AP      shows 20 or 26 but the real is 11
+AC1 LCA_LAT     shows 16 or 17 but the real is 10
+AC1 RCA_AP      shows 15 or 15 but the real is 12
+AC1 RCA_LAT     shows 14 or 13 but the real is 12
+
+ALR-2 LCA_30LAO25CRA    shows 18 or 13 but the real is 10
+ALR-2 LCA_30RAO         shows 16 or 17 but the real is 10

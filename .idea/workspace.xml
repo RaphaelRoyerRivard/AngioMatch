@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eddf5353-0dff-42d7-bf3b-a4e695006496" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heartbeat_from_pixels.py" beforeDir="false" afterPath="$PROJECT_DIR$/heartbeat_from_pixels.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/identify_relevant_frames.py" beforeDir="false" afterPath="$PROJECT_DIR$/identify_relevant_frames.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sequence_distance_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/sequence_distance_matrix.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,11 +17,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="sequence_distance_matrix.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sequence_distance_matrix.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="heartbeat_from_pixels.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/heartbeat_from_pixels.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="73" column="1" lean-forward="true" selection-start-line="73" selection-start-column="1" selection-end-line="74" selection-end-column="22" />
+            <state relative-caret-position="187">
+              <caret line="80" selection-start-line="80" selection-end-line="94" selection-end-column="10" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -25,23 +41,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sequence_distance_matrix.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sequence_distance_matrix.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="52" column="53" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="53" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="identify_relevant_frames.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="identify_relevant_frames.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/identify_relevant_frames.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="4" selection-end-column="36" />
+            <state relative-caret-position="171">
+              <caret line="147" column="54" lean-forward="true" selection-start-line="147" selection-start-column="54" selection-end-line="147" selection-end-column="54" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,15 +68,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/identify_relevant_frames.py" />
         <option value="$PROJECT_DIR$/measure_contrast.py" />
-        <option value="$PROJECT_DIR$/heartbeat_from_pixels.py" />
         <option value="$PROJECT_DIR$/sequence_distance_matrix.py" />
+        <option value="$PROJECT_DIR$/heartbeat_from_pixels.py" />
+        <option value="$PROJECT_DIR$/identify_relevant_frames.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
+    <option name="x" value="953" />
     <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
@@ -94,7 +101,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../ImageClassif" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -108,7 +115,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.sequence_distance_matrix">
+  <component name="RunManager" selected="Python.identify_relevant_frames">
     <configuration name="heartbeat_from_pixels" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="angiomatch" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -189,10 +196,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sequence_distance_matrix" />
-        <item itemvalue="Python.heartbeat_from_pixels" />
-        <item itemvalue="Python.measure_contrast" />
         <item itemvalue="Python.identify_relevant_frames" />
+        <item itemvalue="Python.heartbeat_from_pixels" />
+        <item itemvalue="Python.sequence_distance_matrix" />
+        <item itemvalue="Python.measure_contrast" />
       </list>
     </recent_temporary>
   </component>
@@ -203,8 +210,8 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24973656" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32972974" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1264489" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23351352" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -224,10 +231,45 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="5" />
+      <option name="time" value="8" />
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="weighted_moving_average_mask.shape" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/heartbeat_from_pixels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="73" column="1" lean-forward="true" selection-start-line="73" selection-start-column="1" selection-end-line="74" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/identify_relevant_frames.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="4" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sequence_distance_matrix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1343">
+          <caret line="84" column="18" lean-forward="true" selection-start-line="84" selection-start-column="18" selection-end-line="84" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/heartbeat_from_pixels.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -316,27 +358,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/identify_relevant_frames.py">
+    <entry file="file://$PROJECT_DIR$/sequence_distance_matrix.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="4" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/heartbeat_from_pixels.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="73" column="1" lean-forward="true" selection-start-line="73" selection-start-column="1" selection-end-line="74" selection-end-column="22" />
+        <state relative-caret-position="136">
+          <caret line="8" column="45" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sequence_distance_matrix.py">
+    <entry file="file://$USER_HOME$/.PyCharmEdu2018.1/system/python_stubs/-1828850609/builtins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="52" column="53" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="53" />
+        <state relative-caret-position="159">
+          <caret line="3668" column="8" selection-start-line="3668" selection-start-column="8" selection-end-line="3668" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/heartbeat_from_pixels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="80" selection-start-line="80" selection-end-line="94" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/identify_relevant_frames.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="147" column="54" lean-forward="true" selection-start-line="147" selection-start-column="54" selection-end-line="147" selection-end-column="54" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
