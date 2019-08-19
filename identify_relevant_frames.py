@@ -21,7 +21,7 @@ def get_video_statistics(files):
         edges_y = cv2.filter2D(img, cv2.CV_8U, kernely)
         gradient = edges_x + edges_y
 
-        video_statistics.append((id, np.average(gradient), np.std(img)))
+        video_statistics.append((id, np.average(gradient), np.std(img), img))
 
     return video_statistics
 
@@ -67,7 +67,6 @@ def remove_outliers(values):
             neighbor.append(values[i + neighbor_offset])
         # Get the average of the neighbors
         avg = np.array(neighbor).mean()
-        # if abs(values[i] - values[compare_1]) >= 1 and abs(values[i] - values[compare_2]) >= 1:
         if abs(values[i] - avg) >= 1:
             print(f"Frame {i+1} is an outlier! avg is {avg} while frame is {values[i]}")
             values[i] = avg
@@ -159,33 +158,63 @@ def get_heartbeat_frequency(title, intensity_std, good_gradient):
 
 if __name__ == '__main__':
     i = 0
-    hb_ground_truth = [21, 22, 22, 20, 21, 21, 20,  # AA-4
-                       18, 18, 17, 17, 18, 18,  # ABL-5
-                       12, 11, 11, 11, 12, 12,  # AC-1
-                       10, 10, 10, 10, 9,  # ALR-2
-                       8, 8, 9, 8, 8, 9, 9, 9, 9,  # G1
-                       11, 11,  # G10
-                       10, 9,  # G12
-                       12, 13, 13, 12, 12, 13, 13, 13,  # G13
-                       12, 11, 14, 17,  # G14
-                       8, 8, 7, 8, 7, 8,  # G15
-                       10, 11, 10, 10, 10, 10, 10, 10, 10, 10,  # G16
-                       9, 9, 8, 8, 8, 8, 8, 8, 8,  # G17
-                       17, 17, 17, 17, 17, 17, 18, 18, 17,  # G18
-                       9, 9, 9, 9, 9,  # G2
-                       8, 8, 8, 8, 8, 8, 8,  # G3
-                       9, 9, 9, 9, 9, 9, 9, 8,  # G5
-                       8, 8, 8, 8, 8, 8,  # G6
-                       16, 16, 17, 17, 15, 16, 16,  # G8
-                       11, 11, 11, 11, 10, 11,  # G9
-                       11, 11, 11, 11, 11, 11,  # JEL-10
-                       14, 14, 14, 14, 15, 15,  # KC-3
-                       9, 9, 9, 9, 9, 9, 9,  # KR-11
-                       11, 11, 11, 12,  # MAL-8
-                       16, 13, 14, 15, 15,  # MB-12
-                       14, 14,  # MJY-9
-                       10, 10]  # SB-6
-    base_path = r'C:\Users\root\Data\Angiographie\G17\export\6'
+    hb_ground_truth = [
+        21, 22, 22, 20, 21, 21, 20,  # AA-4
+        18, 18, 17, 17, 18, 18,  # ABL-5
+        12, 11, 11, 11, 12, 12,  # AC-1
+        10, 10, 10, 10, 9,  # ALR-2
+        8, 8, 9, 8, 8, 9, 9, 9, 9,  # G1
+        11, 11,  # G10
+        10, 9,  # G12
+        12, 13, 13, 12, 12, 13, 13, 13,  # G13
+        12, 11, 14, 17,  # G14
+        8, 8, 7, 8, 7, 8,  # G15
+        10, 11, 10, 10, 10, 10, 10, 10, 10, 10,  # G16
+        9, 9, 8, 8, 8, 8, 8, 8, 8,  # G17
+        17, 17, 17, 17, 17, 17, 18, 18, 17,  # G18
+        9, 9, 9, 9, 9,  # G2
+        8, 8, 8, 8, 8, 8, 8,  # G3
+        9, 9, 9, 9, 9, 9, 9, 8,  # G5
+        8, 8, 8, 8, 8, 8,  # G6
+        16, 16, 17, 17, 15, 16, 16,  # G8
+        11, 11, 11, 11, 10, 11,  # G9
+        11, 11, 11, 11, 11, 11,  # JEL-10
+        14, 14, 14, 14, 15, 15,  # KC-3
+        9, 9, 9, 9, 9, 9, 9,  # KR-11
+        11, 11, 11, 12,  # MAL-8
+        16, 13, 14, 15, 15,  # MB-12
+        14, 14,  # MJY-9
+        10, 10  # SB-6
+    ]
+    contracted_ground_truth = [
+        53, 66, 45, 70, 70, 62, 61,  # AA-4
+        58, 62, 46, 46, 50, 69,  # ABL-5
+        29, 33, 42, 41, 40, 64,  # AC-1
+        38, 37, 27, 26, 36,  # ALR-2
+        31, 30, 25, 26, 29, 30, 27, 35, 37,  # G1
+        31, 30,  # G10
+        32, 31,  # G12
+        28, 40, 14, 55, 24, 25, 26, 40,  # G13
+        32, 32, 27, 31,  # G14
+        23, 23, 27, 34, 30, 27,  # G15
+        30, 19, 23, 21, 22, 21, 20, 22, 33, 28,  # G16
+        43, 20, 19, 26, 21, 31, 22, 48, 31,  # G17
+        65, 48, 57, 44, 59, 48, 48, 55, 70,  # G18
+        34, 33, 43, 32, 49,  # G2
+        28, 28, 28, 35, 26, 26, 30,  # G3
+        34, 25, 35, 36, 27, 29, 32, 48,  # G5
+        36, 29, 35, 26, 33, 38,  # G6
+        31, 31, 49, 32, 50, 43, 50,  # G8
+        34, 24, 23, 38, 29, 36,  # G9
+        49, 40, 29, 29, 38, 38,  # JEL-10
+        48, 65, 53, 52, 76, 61,  # KC-3
+        38, 41, 53, 41, 40, 37, 37,  # KR-11
+        42, 42, 32, 32,  # MAL-8
+        50, 38, 45, 41, 41,  # MB-12
+        44, 43,  # MJY-9
+        41, 40  # SB-6
+    ]
+    base_path = r'C:\Users\root\Data\Angiographie'
     for path, subfolders, files in walk(base_path):
 
         video_statistics = get_video_statistics(files)
@@ -216,24 +245,38 @@ if __name__ == '__main__':
         intensity_std = intensity_std - std_avg
 
         remove_outliers(intensity_std)
+
+        max_std_frame = np.argmax(intensity_std)
+        # plt.suptitle("Frame with max intensity std")
+        # plt.subplot(1, 2, 1)
+        # plt.plot(intensity_std)
+        # plt.axvline(max_std_frame, color='orange')
+        # plt.xlabel("frame # in the sequence")
+        # plt.ylabel("intensity std")
+        # plt.subplot(1, 2, 2)
+        # plt.imshow(video_statistics[max_std_frame][3])
+        # plt.show()
+
         frequency = get_heartbeat_frequency(f"{patient}, {angle}", intensity_std, (first, last))
 
-        plt.plot(gradient_avg, color='black')
-        plt.plot(gradient_moving_average, color='gray')
-        plt.axvspan(first, last, color='g')
-        plt.axhline(0, color='r')
-        plt.title("avg gradient intensity")
-        plt.xlabel("frame # in the sequence")
-        plt.ylabel("gradient intensity")
-        plt.show()
+        # plt.plot(gradient_avg, color='black')
+        # plt.plot(gradient_moving_average, color='gray')
+        # plt.axvspan(first, last, color='g')
+        # plt.axhline(0, color='r')
+        # plt.title("avg gradient intensity")
+        # plt.xlabel("frame # in the sequence")
+        # plt.ylabel("gradient intensity")
+        # plt.show()
 
         # rfile = open(path + "/temp/seg/relevant_frames.txt", "r")
         # line = rfile.readline()
         # rfile.close()
         # # print(len(gradient_avg), "frames [", first, ",", last, "] vs", line)
-        wfile = open(path + "/relevant_frames.txt", "w+")
-        # wfile.write(str(first) + ";" + str(last) + ";" + str(frequency))
-        # wfile.write(str(first) + ";" + str(last) + ";" + str(hb_ground_truth[i]))
-        wfile.close()
+        if 0 <= first < last:
+            wfile = open(path + "/relevant_frames.txt", "w+")
+            wfile.write(str(first) + ";" + str(last) + ";" + str(hb_ground_truth[i]) + ";" + str(contracted_ground_truth[i]))
+            wfile.close()
+            # print(len(video_statistics), f"frames [{first}, {last}] @{frequency} max {max_std_frame}")
+        else:
+            print("Sequence is invalid")
         i += 1
-        print(len(video_statistics), f"frames [{first}, {last}] @{frequency}")
