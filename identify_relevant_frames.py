@@ -49,12 +49,28 @@ def get_frames_with_good_gradient(gradient_avg):
     return first, last
 
 
-def remove_outliers(intensity_std):
-    for i in range(1, len(intensity_std)-1):
-        avg = (intensity_std[i-1] + intensity_std[i+1]) / 2
-        if abs(intensity_std[i] - intensity_std[i-1]) >= 1 and abs(intensity_std[i] - intensity_std[i+1]) >= 1:
-            print(f"Frame {i+1} is an outlier! avg is {avg} while frame is {intensity_std[i]}")
-            intensity_std[i] = avg
+def remove_outliers(values):
+    neighbor_size = 4  # Needs to be even
+    for i in range(len(values)):
+        neighbor = []
+        # Find offset for values at the extremities
+        offset = 0
+        if i < neighbor_size // 2:
+            offset = neighbor_size // 2 - i
+        elif i > len(values) - 1 - (neighbor_size // 2):
+            offset = len(values) - 1 - i - neighbor_size // 2
+        # Find the right neighbors
+        for j in range(neighbor_size + 1):
+            neighbor_offset = j - neighbor_size // 2 + offset
+            if neighbor_offset == 0:
+                continue  # current i
+            neighbor.append(values[i + neighbor_offset])
+        # Get the average of the neighbors
+        avg = np.array(neighbor).mean()
+        # if abs(values[i] - values[compare_1]) >= 1 and abs(values[i] - values[compare_2]) >= 1:
+        if abs(values[i] - avg) >= 1:
+            print(f"Frame {i+1} is an outlier! avg is {avg} while frame is {values[i]}")
+            values[i] = avg
 
 
 def gaussian_kernel_1d(n, sigma=1):
@@ -62,16 +78,16 @@ def gaussian_kernel_1d(n, sigma=1):
     return [1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r]
 
 
+def get_moving_average(values, N):
+    gaussian_kernel = np.array(gaussian_kernel_1d(N, sigma=4))
+    moving_average = np.convolve(values, gaussian_kernel/gaussian_kernel.sum(), mode='same')
+    return moving_average
+
+
 def get_heartbeat_frequency(title, intensity_std, good_gradient):
     extrema_minimum_frame_distance = 10
     moving_average_N = 19
-    # weighted_moving_average_mask = np.ones((moving_average_N,))
-    # for i in range(moving_average_N):
-    #     weighted_moving_average_mask[i] = 1 - abs(i + 1 - 10)/10
-    # averaged_std_moving_average = np.convolve(intensity_std, weighted_moving_average_mask/weighted_moving_average_mask.sum(), mode='same')
-    gaussian_kernel = np.array(gaussian_kernel_1d(moving_average_N, sigma=4))
-    # print(gaussian_kernel)
-    averaged_std_moving_average = np.convolve(intensity_std, gaussian_kernel/gaussian_kernel.sum(), mode='same')
+    averaged_std_moving_average = get_moving_average(intensity_std, moving_average_N)
     smoothed_std = intensity_std - averaged_std_moving_average
 
     local_minimas = []
@@ -147,6 +163,21 @@ if __name__ == '__main__':
                        18, 18, 17, 17, 18, 18,  # ABL-5
                        12, 11, 11, 11, 12, 12,  # AC-1
                        10, 10, 10, 10, 9,  # ALR-2
+                       8, 8, 9, 8, 8, 9, 9, 9, 9,  # G1
+                       11, 11,  # G10
+                       10, 9,  # G12
+                       12, 13, 13, 12, 12, 13, 13, 13,  # G13
+                       12, 11, 14, 17,  # G14
+                       8, 8, 7, 8, 7, 8,  # G15
+                       10, 11, 10, 10, 10, 10, 10, 10, 10, 10,  # G16
+                       9, 9, 8, 8, 8, 8, 8, 8, 8,  # G17
+                       17, 17, 17, 17, 17, 17, 18, 18, 17,  # G18
+                       9, 9, 9, 9, 9,  # G2
+                       8, 8, 8, 8, 8, 8, 8,  # G3
+                       9, 9, 9, 9, 9, 9, 9, 8,  # G5
+                       8, 8, 8, 8, 8, 8,  # G6
+                       16, 16, 17, 17, 15, 16, 16,  # G8
+                       11, 11, 11, 11, 10, 11,  # G9
                        11, 11, 11, 11, 11, 11,  # JEL-10
                        14, 14, 14, 14, 15, 15,  # KC-3
                        9, 9, 9, 9, 9, 9, 9,  # KR-11
@@ -154,7 +185,7 @@ if __name__ == '__main__':
                        16, 13, 14, 15, 15,  # MB-12
                        14, 14,  # MJY-9
                        10, 10]  # SB-6
-    base_path = r'C:\Users\root\Data\Angiographie'
+    base_path = r'C:\Users\root\Data\Angiographie\G17\export\6'
     for path, subfolders, files in walk(base_path):
 
         video_statistics = get_video_statistics(files)
@@ -173,10 +204,12 @@ if __name__ == '__main__':
         video_statistics.sort()
 
         gradient_avg = np.array([x[1] for x in video_statistics])
-        avg_avg = np.average(gradient_avg)
+        avg_avg = np.mean(gradient_avg)
         gradient_avg = gradient_avg - avg_avg
+        remove_outliers(gradient_avg)
+        gradient_moving_average = get_moving_average(gradient_avg, 19)
 
-        first, last = get_frames_with_good_gradient(gradient_avg)
+        first, last = get_frames_with_good_gradient(gradient_moving_average)
 
         intensity_std = np.array([x[2] for x in video_statistics])
         std_avg = np.average(intensity_std)
@@ -185,13 +218,14 @@ if __name__ == '__main__':
         remove_outliers(intensity_std)
         frequency = get_heartbeat_frequency(f"{patient}, {angle}", intensity_std, (first, last))
 
-        # plt.plot(avg, color='black')
-        # plt.axvspan(first, last, color='g')
-        # plt.axhline(0, color='r')
-        # plt.title("avg gradient intensity")
-        # plt.xlabel("frame # in the sequence")
-        # plt.ylabel("gradient intensity")
-        # plt.show()
+        plt.plot(gradient_avg, color='black')
+        plt.plot(gradient_moving_average, color='gray')
+        plt.axvspan(first, last, color='g')
+        plt.axhline(0, color='r')
+        plt.title("avg gradient intensity")
+        plt.xlabel("frame # in the sequence")
+        plt.ylabel("gradient intensity")
+        plt.show()
 
         # rfile = open(path + "/temp/seg/relevant_frames.txt", "r")
         # line = rfile.readline()
@@ -199,7 +233,7 @@ if __name__ == '__main__':
         # # print(len(gradient_avg), "frames [", first, ",", last, "] vs", line)
         wfile = open(path + "/relevant_frames.txt", "w+")
         # wfile.write(str(first) + ";" + str(last) + ";" + str(frequency))
-        wfile.write(str(first) + ";" + str(last) + ";" + str(hb_ground_truth[i]))
+        # wfile.write(str(first) + ";" + str(last) + ";" + str(hb_ground_truth[i]))
         wfile.close()
         i += 1
         print(len(video_statistics), f"frames [{first}, {last}] @{frequency}")
