@@ -77,9 +77,17 @@ def gaussian_kernel_1d(n, sigma=1):
     return [1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r]
 
 
-def get_moving_average(values, N):
-    gaussian_kernel = np.array(gaussian_kernel_1d(N, sigma=4))
-    moving_average = np.convolve(values, gaussian_kernel/gaussian_kernel.sum(), mode='same')
+def get_moving_average(values, N, use_gaussian_kernel=True, mode='same'):
+    if use_gaussian_kernel:
+        kernel = np.array(gaussian_kernel_1d(N, sigma=4))
+    else:
+        kernel = np.ones(N)
+    if mode == 'same':
+        # We manually add padding and use valid mode, otherwise numpy will use 0 padding
+        values = np.append(np.ones(int(N/2)) * values[0], values)
+        values = np.append(values, np.ones(int(N/2)) * values[-1])
+        mode = 'valid'
+    moving_average = np.convolve(values, kernel/kernel.sum(), mode=mode)
     return moving_average
 
 
@@ -184,6 +192,19 @@ if __name__ == '__main__':
         11, 11, 11.5, 11.5,  # MAL-8
         15.5, 14, 14, 15.5, 15.5,  # MB-12
         14.5, 14.5,  # MJY-9
+        18, 17.5, 18, 18, 17, 18.5, 16, 19, 16.5,  # P20
+        10, 10, 9.5, 9.5, 9.5, 9.25, 10.5, 11.5, 10.5, 11.5,  # P21
+        16, 17, 15, 18, 15.5, 17, 16, 20, 15, 18, 13.5, 14, 18, 13.5, 14, 18,  # P22
+        14, 14, 15.5, 14.5, 15, 16, 15.5, 14,  # P23
+        8.5, 8, 8.5, 8.5, 8.5, 9, 9,  # P24
+        20, 20, 19, 19, 21, 18, 19, 17, 17.5, 19.5, 17,  # P25
+        9, 9, 9, 9, 9, 9, 9, 8.5, 9, 9,  # P26
+        16, 15, 15, 15, 15, 14.5, 14.5,  # P27
+        9.5, 5.5, 5.5, 9.5, 9, 11.5, 12.5, 11.5, 9, 10, 12, 11, 11,  # P28
+        10.5, 10.5, 10.5, 10, 11, 11,  # P29
+        9.5, 10, 10, 9.5, 9.5, 9.5, 10.5, 10,  # P30
+        12, 12, 11.5, 11.5, 11.5, 11.5,  # P31
+        11, 11.5, 11.5, 11, 13.5, 12, 10.5, 10.5,  # P32
         10, 10  # SB-6
     ]
     contracted_ground_truth = [
@@ -212,6 +233,19 @@ if __name__ == '__main__':
         53, 53, 44, 43.5,  # MAL-8
         66, 52, 45, 57, 57.5,  # MB-12
         44, 43,  # MJY-9
+        80, 80, 73, 75, 80, 69, 93, 69, 125.5,  # P20
+        54.5, 71.5, 45, 44, 53, 35, 71, 50.5, 60, 50.5,  # P21
+        28, 41, 54, 50, 48.5, 57, 44, 46, 52, 51, 41, 39, 67, 40, 39, 67,  # P22
+        45, 52, 57, 44, 53, 66, 42, 44,  # P23
+        25, 32, 21, 26, 23.5, 21, 102,  # P24
+        55, 66, 42, 54, 39, 98, 122, 105, 99, 142, 106,  # P25
+        32, 27, 34, 25, 29, 28, 34, 25, 60, 50,  # P26
+        58, 53, 70, 45, 69, 44, 43,  # P27
+        27, 59, 52, 25, 33, 43, 34.5, 38, 42, 24, 34, 27, 60,  # P28
+        25, 43, 43, 25, 50.5, 50,  # P29
+        35, 30, 33, 40.5, 33.5, 40, 44.5, 35,  # P30
+        37, 55, 41, 55, 37, 37,  # P31
+        36, 47, 29.5, 45, 40, 29, 43, 32,  # P32
         41, 30.5  # SB-6
     ]
     base_path = r'C:\Users\root\Data\Angiographie'
@@ -240,13 +274,14 @@ if __name__ == '__main__':
 
         first, last = get_frames_with_good_gradient(gradient_moving_average)
 
-        intensity_std = np.array([x[2] for x in video_statistics])
-        std_avg = np.average(intensity_std)
-        intensity_std = intensity_std - std_avg
+        # intensity_std = np.array([x[2] for x in video_statistics])
+        # std_avg = np.average(intensity_std)
+        # intensity_std = intensity_std - std_avg
+        #
+        # remove_outliers(intensity_std)
+        #
+        # max_std_frame = np.argmax(intensity_std)
 
-        remove_outliers(intensity_std)
-
-        max_std_frame = np.argmax(intensity_std)
         # plt.suptitle("Frame with max intensity std")
         # plt.subplot(1, 2, 1)
         # plt.plot(intensity_std)
@@ -257,7 +292,7 @@ if __name__ == '__main__':
         # plt.imshow(video_statistics[max_std_frame][3])
         # plt.show()
 
-        frequency = get_heartbeat_frequency(f"{patient}, {angle}", intensity_std, (first, last))
+        # frequency = get_heartbeat_frequency(f"{patient}, {angle}", intensity_std, (first, last))
 
         # plt.plot(gradient_avg, color='black')
         # plt.plot(gradient_moving_average, color='gray')
