@@ -77,7 +77,7 @@ def gaussian_kernel_1d(n, sigma=1):
     return [1 / (sigma * np.sqrt(2*np.pi)) * np.exp(-float(x)**2/(2*sigma**2)) for x in r]
 
 
-def get_moving_average(values, N, use_gaussian_kernel=True, mode='same'):
+def get_moving_average(values, N, use_gaussian_kernel=True, mode='same', pad_values=False):
     if use_gaussian_kernel:
         kernel = np.array(gaussian_kernel_1d(N, sigma=4))
     else:
@@ -88,6 +88,12 @@ def get_moving_average(values, N, use_gaussian_kernel=True, mode='same'):
         values = np.append(values, np.ones(int(N/2)) * values[-1])
         mode = 'valid'
     moving_average = np.convolve(values, kernel/kernel.sum(), mode=mode)
+    if pad_values:
+        if (values.shape[0] - moving_average.shape[0]) % 2 > 0:
+            raise Exception(f"Size difference between values ({values.shape[0]}) and moving average ({moving_average.shape[0]}) is odd when it should be even.")
+        half_size_diff = int((values.shape[0] - moving_average.shape[0]) / 2)
+        moving_average = np.append(np.ones(half_size_diff) * moving_average[0], moving_average)
+        moving_average = np.append(moving_average, np.ones(half_size_diff) * moving_average[-1])
     return moving_average
 
 
