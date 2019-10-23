@@ -14,12 +14,12 @@ if __name__ == '__main__':
         print(path)
 
         for file in files:
-            if file.endswith(".dcm.ecg.r-peaks.txt"):
+            if file.endswith(".dcm.ecg.r-peaks.txt") or file.endswith(".dcm.ecg.r-peaks.npy"):
                 patient = path.split("\\")[-1]
                 angle = file.split(".")[0]
                 destination_path = base_destination_path + "\\" + patient + "\\export\\" + angle
                 if exists(destination_path):
-                    copyfile(path + "\\" + file, destination_path + "\\r-peaks.txt")
+                    copyfile(path + "\\" + file, destination_path + "\\r-peaks." + file.split(".")[-1])
                     print(file + " copied")
 
     # MITCHEL DATA
@@ -27,12 +27,12 @@ if __name__ == '__main__':
         print(path)
 
         for file in files:
-            if file.endswith(".dcm.ecg.r-peaks.txt"):
+            if file.endswith(".dcm.ecg.r-peaks.txt") or file.endswith(".dcm.ecg.r-peaks.npy"):
                 patient = path.split("\\")[-1]
                 angle = str(int(file[6:8]))
                 destination_path = base_destination_path + "\\" + patient + "\\export\\" + angle
                 if exists(destination_path):
-                    copyfile(path + "\\" + file, destination_path + "\\r-peaks.txt")
+                    copyfile(path + "\\" + file, destination_path + "\\r-peaks." + file.split(".")[-1])
                     print(file + " copied")
 
     # SEVERINE DATA
@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     for folder, file in folder_pairs.items():
         patient = folder.split("\\")[1]
-        full_filename = severine_path + "\\" + patient + "\\anon\\" + file + ".dcm.ecg.r-peaks.txt"
-        copyfile(full_filename, base_destination_path + folder + "\\r-peaks.txt")
-        print(file + ".dcm.ecg.r-peaks.txt copied")
+        full_filename = severine_path + "\\" + patient + "\\anon\\" + file + ".dcm.ecg.r-peaks."
+        copyfile(full_filename + "txt", base_destination_path + folder + "\\r-peaks.txt")
+        copyfile(full_filename + "npy", base_destination_path + folder + "\\r-peaks.npy")
+        print(file + ".dcm.ecg.r-peaks.txt & .npy copied")
