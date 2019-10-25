@@ -140,7 +140,8 @@ if __name__ == '__main__':
             file = open(path + "\\" + filename, 'r')
             lines = file.readlines()
             file.close()
-            ecg = np.array([int(line) for line in lines])
+            frame_count = int(lines[0])
+            ecg = np.array([int(line) for line in lines[1:]])
 
             # Smooth and standardize ECG values
             coarse_moving_average = get_moving_average(ecg, 201, use_gaussian_kernel=False, mode="valid", pad_values=True)
@@ -197,5 +198,5 @@ if __name__ == '__main__':
             output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
             np.save(output_file_name, positions)  # This one creates a .npy file
             file = open(output_file_name + ".txt", 'w')
-            file.writelines(str(positions))
+            file.writelines(str(positions * frame_count))
             file.close()
