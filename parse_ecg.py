@@ -135,7 +135,13 @@ if __name__ == '__main__':
             if not filename.endswith("ecg.txt"):
                 continue
 
+            split_path = path.split("\\")
+            patient = split_path[-1]
+            print("patient:", patient)
             print(filename)
+            split_filename = filename.split(".")
+            sequence = int(split_filename[0][4:])
+            print("sequence:", sequence)
             # Read ECG file
             file = open(path + "\\" + filename, 'r')
             lines = file.readlines()
@@ -161,33 +167,35 @@ if __name__ == '__main__':
             more_filtered_peaks = filter_peaks_based_on_narrowness(standardized_ecg, filtered_peaks, MAX_PEAK_WIDTH)
             more_filtered_peaks = np.array(filter_close_peaks(standardized_ecg, more_filtered_peaks))
 
-            # if previous_peaks is None or len(more_filtered_peaks) != len(previous_peaks) or (more_filtered_peaks - previous_peaks).std() > 0:
-            #     plt.subplots_adjust(hspace=0.45)
-            #     plt.suptitle(f"R-peaks for ({filename})")
-            #     plt.subplot(5, 1, 1)
-            #     plt.title("ECG and coarse moving average")
-            #     plt.plot(ecg)
-            #     plt.plot(coarse_moving_average)
-            #     plt.plot(finer_moving_average)
-            #     plt.subplot(5, 1, 2)
-            #     plt.title("Unfiltered peaks")
-            #     plt.vlines(ecg_peaks, 0, 1, 'red')
-            #     plt.plot(standardized_ecg, zorder=1)
-            #     plt.subplot(5, 1, 3)
-            #     plt.title("Positive and negative peaks of gradient")
-            #     plt.vlines(gradient_positive_peaks, 0, 1, 'red')
-            #     plt.vlines(gradient_negative_peaks, 0, 1, 'green')
-            #     plt.hlines(gradient.mean() * MIN_GRADIENT_PEAK_RATIO_COMPARED_TO_MEAN, 0, len(standardized_ecg), 'purple', zorder=2)
-            #     plt.plot(gradient)
-            #     plt.subplot(5, 1, 4)
-            #     plt.title("R-peaks filtered with gradient")
-            #     plt.vlines(filtered_peaks, 0, 1, 'red')
-            #     plt.plot(standardized_ecg)
-            #     plt.subplot(5, 1, 5)
-            #     plt.title("R-peaks filtered with gradient and narrowness")
-            #     plt.vlines(more_filtered_peaks, 0, 1, 'red', zorder=2)
-            #     plt.plot(standardized_ecg, zorder=1)
-            #     plt.show()
+            if patient == "G14" and sequence == 10 and (previous_peaks is None or len(more_filtered_peaks) != len(previous_peaks) or (more_filtered_peaks - previous_peaks).std() > 0):
+                plt.subplots_adjust(hspace=0.45)
+                plt.suptitle(f"R-peaks for ({filename})")
+                plt.subplot(2, 1, 1)
+                plt.title("ECG and coarse moving average")
+                plt.plot(ecg)
+                plt.plot(coarse_moving_average)
+                plt.plot(finer_moving_average)
+                # plt.subplot(5, 1, 2)
+                # plt.title("Unfiltered peaks")
+                # plt.vlines(ecg_peaks, 0, 1, 'red')
+                # plt.plot(standardized_ecg, zorder=1)
+                # plt.subplot(5, 1, 3)
+                # plt.title("Positive and negative peaks of gradient")
+                # plt.vlines(gradient_positive_peaks, 0, 1, 'red')
+                # plt.vlines(gradient_negative_peaks, 0, 1, 'green')
+                # plt.hlines(gradient.mean() * MIN_GRADIENT_PEAK_RATIO_COMPARED_TO_MEAN, 0, len(standardized_ecg), 'purple', zorder=2)
+                # plt.plot(gradient)
+                # plt.subplot(5, 1, 4)
+                # plt.title("R-peaks filtered with gradient")
+                # plt.vlines(filtered_peaks, 0, 1, 'red')
+                # plt.plot(standardized_ecg)
+                # plt.subplot(5, 1, 5)
+                plt.subplot(2, 1, 2)
+                plt.title("R-peaks filtered with gradient and narrowness")
+                # plt.vlines(more_filtered_peaks, 0, 1, 'red', zorder=2)
+                # plt.plot(standardized_ecg, zorder=1)
+                plt.plot(standardized_ecg, 'red')
+                plt.show()
 
             previous_peaks = more_filtered_peaks
 
@@ -195,8 +203,8 @@ if __name__ == '__main__':
             positions = more_filtered_peaks / len(ecg)
 
             # Save results
-            output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
-            np.save(output_file_name, positions)  # This one creates a .npy file
-            file = open(output_file_name + ".txt", 'w')
-            file.writelines(str(positions * frame_count))
-            file.close()
+            # output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
+            # np.save(output_file_name, positions)  # This one creates a .npy file
+            # file = open(output_file_name + ".txt", 'w')
+            # file.writelines(str(positions * frame_count))
+            # file.close()
