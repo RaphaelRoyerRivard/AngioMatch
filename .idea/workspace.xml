@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eddf5353-0dff-42d7-bf3b-a4e695006496" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parse_ecg.py" beforeDir="false" afterPath="$PROJECT_DIR$/parse_ecg.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/background_subtraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/background_subtraction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plot_opticalflow.py" beforeDir="false" afterPath="$PROJECT_DIR$/plot_opticalflow.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +38,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../VideoSynchronizationWithPytorch" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.plot_opticalflow">
-    <configuration name="background_subtraction" type="PythonConfigurationType" factoryName="Python">
+  <component name="RunManager" selected="Python.background_subtraction optical_flow">
+    <configuration name="background_subtraction naive" type="PythonConfigurationType" factoryName="Python">
       <module name="angiomatch" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -52,7 +52,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/background_subtraction.py" />
-      <option name="PARAMETERS" value="--input_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU" />
+      <option name="PARAMETERS" value="--input_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU --subtraction_type naive" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="background_subtraction optical_flow" type="PythonConfigurationType" factoryName="Python">
+      <module name="angiomatch" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/background_subtraction.py" />
+      <option name="PARAMETERS" value="--input_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU --output_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU\subtracted_background_optical_flow --subtraction_type optical_flow" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -166,7 +187,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.background_subtraction" />
+      <item itemvalue="Python.background_subtraction optical_flow" />
+      <item itemvalue="Python.background_subtraction naive" />
       <item itemvalue="Python.copy_r-peaks_files" />
       <item itemvalue="Python.heartbeat_from_pixels" />
       <item itemvalue="Python.parse_ecg" />
@@ -212,26 +234,26 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="380" y="255" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588021662604">
+    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588097318365">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="380" y="255" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588021662604" />
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588024594709">
+    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588097318365" />
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588120959284">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588024594709" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588024594708">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588120959284" />
+    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588120959284">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588024594708" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588024594708">
+    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588120959284" />
+    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588120959283">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588024594708" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588024594708">
+    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588120959283" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588120959284">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588024594708" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588120959284" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588022358477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -92,7 +92,11 @@ ax1.set_axis_off()
 
 print("image0", image0.min(), image0.max(), image0.mean())
 print("image1_warp", image1_warp.min(), image1_warp.max(), image1_warp.mean())
-ax2.imshow(image0-image1_warp, cmap='Greys')
+subtracted_background = image1_warp - image0
+zeros = subtracted_background < 0
+subtracted_background[zeros] = 0
+print("subtracted_background", subtracted_background.min(), subtracted_background.max(), subtracted_background.mean())
+ax2.imshow(1-subtracted_background, cmap='Greys')
 ax2.set_title("Subtracted background image")
 ax2.set_axis_off()
 
