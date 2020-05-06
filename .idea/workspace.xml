@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eddf5353-0dff-42d7-bf3b-a4e695006496" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Raphael.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/background_subtraction.py" beforeDir="false" afterPath="$PROJECT_DIR$/background_subtraction.py" afterDir="false" />
     </list>
@@ -88,7 +87,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/background_subtraction.py" />
-      <option name="PARAMETERS" value="--input_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU --subtraction_type optical_flow --backward_optical_flow 0" />
+      <option name="PARAMETERS" value="--input_folder C:\Users\root\Data\donnees_Severine_Habert\AA-4\export\LCA_30LAO25CAU --subtraction_type optical_flow --backward_optical_flow 1" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -250,30 +249,30 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588367517418">
+    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588713574853">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588367517418" />
+    <state x="457" y="320" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588713574853" />
     <state width="1487" height="466" key="DebuggerActiveHint" timestamp="1588184506093">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1487" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1588184506093" />
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588372981188">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588715216556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588372981188" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588372981188">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
+    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588715216556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588372981188" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588372981188">
+    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
+    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588715216555">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588372981188" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588372981188">
+    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216555" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588715216556">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588372981188" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588022358477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -284,7 +283,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/background_subtraction.py</url>
-          <line>270</line>
+          <line>294</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

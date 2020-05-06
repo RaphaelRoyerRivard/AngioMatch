@@ -83,6 +83,8 @@ def subtract_background_naively(background_image, input_image):
 #     if backward:  # We find the transformation needed to fit the input image onto the background image and apply the opposite transformation to the background image
 #         v, u = optical_flow_tvl1(input_image, background_image)
 #         inverse_map = np.array([row_coords + v, col_coords + u])
+#         v, u = optical_flow_tvl1(subtracted_background, background_minus_input)
+#         inverse_map2 = np.array([row_coords - v, col_coords - u])
 #
 #     else:  # We find the transformation needed to fit the background image onto the input image and apply it to the background image
 #         v, u = optical_flow_tvl1(background_image, input_image)
@@ -94,40 +96,59 @@ def subtract_background_naively(background_image, input_image):
 #     warped_background = warp(background_image, inverse_map)
 #     warped_background2 = warp(background_image, inverse_map2)
 #
-#     subtracted_background = warped_background - input_image  # To get a white on black image, the logic is reversed
-#     subtracted_background[subtracted_background < 0] = 0
+#     subtracted_background1 = warped_background - input_image  # To get a white on black image, the logic is reversed
+#     subtracted_background1[subtracted_background1 < 0] = 0
 #     subtracted_background2 = warped_background2 - input_image  # To get a white on black image, the logic is reversed
 #     subtracted_background2[subtracted_background2 < 0] = 0
 #
-#     differences = np.abs(subtracted_background - subtracted_background2) > 0.05
-#     combined = subtracted_background.copy()
+#     differences = np.abs(subtracted_background1 - subtracted_background2) > 0.05
+#     combined = subtracted_background1.copy()
 #     combined[differences] = 0
 #
 #     plt.subplot(2, 4, 1)
 #     plt.title("Background image")
 #     plt.imshow(background_image, cmap='gray')
+#     plt.axis("off")
+#
+#     plt.subplot(2, 4, 2)
+#     plt.title("Background minus input")
+#     plt.imshow(background_minus_input, cmap='gray', vmin=0, vmax=1)
+#     plt.axis("off")
+#
+#     plt.subplot(2, 4, 3)
+#     plt.title("Warped background from raw images")
+#     plt.imshow(warped_background, cmap='gray')
+#     plt.axis("off")
+#
+#     plt.subplot(2, 4, 4)
+#     plt.title("Optical flow on raw images")
+#     plt.imshow(subtracted_background1, cmap='gray')
+#     plt.axis("off")
+#
 #     plt.subplot(2, 4, 5)
 #     plt.title("Input image")
 #     plt.imshow(input_image, cmap='gray')
-#     plt.subplot(2, 4, 2)
-#     plt.title("Warped background")
-#     plt.imshow(warped_background, cmap='gray')
-#     plt.subplot(2, 4, 3)
-#     plt.title("Subtracted background")
-#     plt.imshow(subtracted_background, cmap='gray')
+#     plt.axis("off")
+#
 #     plt.subplot(2, 4, 6)
-#     plt.title("Warped background2")
-#     plt.imshow(warped_background2, cmap='gray')
+#     plt.title("Input minus background")
+#     plt.imshow(subtracted_background, cmap='gray', vmin=0, vmax=1)
+#     plt.axis("off")
+#
 #     plt.subplot(2, 4, 7)
-#     plt.title("Subtracted background2")
-#     plt.imshow(subtracted_background2, cmap='gray')
+#     plt.title("Warped background from subtracted images")
+#     plt.imshow(warped_background2, cmap='gray')
+#     plt.axis("off")
+#
 #     plt.subplot(2, 4, 8)
-#     plt.title("Combined")
-#     plt.imshow(combined, cmap='gray')
+#     plt.title("Optical flow on subtracted images")
+#     plt.imshow(subtracted_background2, cmap='gray')
+#     plt.axis("off")
+#
 #     plt.show()
 #
-#     subtracted_background *= 255
-#     return subtracted_background
+#     subtracted_background1 *= 255
+#     return subtracted_background1
 
 
 def subtract_background_with_optical_flow(background_image, input_image, backward=False):
@@ -147,17 +168,17 @@ def subtract_background_with_optical_flow(background_image, input_image, backwar
         inverse_map = np.array([row_coords - v, col_coords - u])
 
     # Show the optical flow on the input image
-    # h, w = input_image.shape[0], input_image.shape[1]
-    # hsv = np.zeros((h, w, 3), np.uint8)
-    # mag, ang = cv2.cartToPolar(u, v)
-    # hsv[..., 0] = ang*180/np.pi/2
-    # hsv[..., 1] = 255
-    # hsv[..., 2] = np.minimum(mag*4, 255)
-    # img = cv2.cvtColor((input_image * 255).astype(np.uint8), cv2.COLOR_GRAY2BGR)
-    # rgb = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
-    # cv2.addWeighted(img, 0.5, rgb, 0.5, 0, rgb)
-    # cv2.imshow('frame2', rgb)
-    # cv2.waitKey()
+    h, w = input_image.shape[0], input_image.shape[1]
+    hsv = np.zeros((h, w, 3), np.uint8)
+    mag, ang = cv2.cartToPolar(u, v)
+    hsv[..., 0] = ang*180/np.pi/2
+    hsv[..., 1] = 255
+    hsv[..., 2] = np.minimum(mag*4, 255)
+    img = cv2.cvtColor((input_image * 255).astype(np.uint8), cv2.COLOR_GRAY2BGR)
+    rgb = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+    cv2.addWeighted(img, 0.5, rgb, 0.5, 0, rgb)
+    cv2.imshow('frame2', rgb)
+    cv2.waitKey()
 
     # Apply the transformation to the background image
     warped_background = warp(background_image, inverse_map)
@@ -228,6 +249,9 @@ if __name__ == '__main__':
     for file in files:
         if not file.endswith(".jpg"):
             continue
+
+        # if file != "DIRW0019-Frame97.jpg":
+        #     continue
 
         print(file)
         input_img_path = f"{input_folder}/{file}"
