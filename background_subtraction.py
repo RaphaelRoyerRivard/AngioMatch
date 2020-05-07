@@ -71,9 +71,6 @@ def subtract_background_naively(background_image, input_image):
 #     plt.imshow(cleaned_input, cmap='gray', vmin=0, vmax=1)
 #     plt.title("cleaned_input")
 #
-#     test = cleaned_background - cleaned_input
-#     print(test.min(), test.max())
-#
 #     plt.show()
 #
 #     nr, nc = input_image.shape  # Use the estimated optical flow for registration
@@ -111,8 +108,8 @@ def subtract_background_naively(background_image, input_image):
 #     plt.axis("off")
 #
 #     plt.subplot(2, 4, 2)
-#     plt.title("Background minus input")
-#     plt.imshow(background_minus_input, cmap='gray', vmin=0, vmax=1)
+#     plt.title("Input image")
+#     plt.imshow(input_image, cmap='gray')
 #     plt.axis("off")
 #
 #     plt.subplot(2, 4, 3)
@@ -126,8 +123,8 @@ def subtract_background_naively(background_image, input_image):
 #     plt.axis("off")
 #
 #     plt.subplot(2, 4, 5)
-#     plt.title("Input image")
-#     plt.imshow(input_image, cmap='gray')
+#     plt.title("Background minus input")
+#     plt.imshow(background_minus_input, cmap='gray', vmin=0, vmax=1)
 #     plt.axis("off")
 #
 #     plt.subplot(2, 4, 6)

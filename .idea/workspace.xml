@@ -257,22 +257,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1487" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1588184506093" />
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588715216556">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom" timestamp="1588813700810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
-    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588715216556">
+    <state width="1899" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588813700810" />
+    <state width="1899" height="281" key="GridCell.Tab.0.center" timestamp="1588813700810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
-    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588715216555">
+    <state width="1899" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588813700810" />
+    <state width="1899" height="281" key="GridCell.Tab.0.left" timestamp="1588813700810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216555" />
-    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588715216556">
+    <state width="1899" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588813700810" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right" timestamp="1588813700810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588715216556" />
+    <state width="1899" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588813700810" />
     <state x="769" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588022358477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -283,7 +283,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/background_subtraction.py</url>
-          <line>294</line>
+          <line>291</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
