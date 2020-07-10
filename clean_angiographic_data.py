@@ -1,5 +1,6 @@
 from os import walk
 from shutil import rmtree
+import numpy as np
 
 
 if __name__ == '__main__':
@@ -8,6 +9,14 @@ if __name__ == '__main__':
     for path, subfolders, files in walk(input_folder):
         print(path)
 
-        if "r-peaks.txt" in files and "relevant_frames.txt" not in files:
-            rmtree(path)
-            print("folder deleted")
+        if "r-peaks.npy" in files:
+            delete_folder = False
+            if "relevant_frames.txt" not in files:
+                delete_folder = True
+            else:
+                r_peaks = np.load(path + "\\r-peaks.npy")
+                if len(r_peaks) < 3:
+                    delete_folder = True
+            if delete_folder:
+                rmtree(path)
+                print("folder deleted")
