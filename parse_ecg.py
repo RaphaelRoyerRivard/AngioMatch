@@ -2,6 +2,7 @@ import numpy as np
 from os import walk
 from matplotlib import pyplot as plt
 from identify_relevant_frames import get_moving_average
+import argparse
 
 
 MIN_PEAK_RATIO_COMPARED_TO_MEAN = 1.0
@@ -11,6 +12,8 @@ MIN_GRADIENT_VALUE_FOR_PEAK = 0.05
 MAX_PEAK_WIDTH = 50
 MIN_GRADIENT_PEAKS_DIFFERENCE = 0.3
 MIN_DISTANCE_BETWEEN_PEAKS = 30
+MOVING_AVERAGE_SIZE = 201
+FINER_MOVING_AVERAGE_SIZE = 51
 
 
 def standardize(values):
@@ -126,21 +129,29 @@ def filter_close_peaks(data, peaks):
 
 
 if __name__ == '__main__':
-    print("Starting")
-    base_path = r'C:\Users\root\Data'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input_folder', default='.', help='input folder in which to search recursively for ecg files (end with .ecg.txt)')
+    parser.add_argument('--intermediate_folder_count', default=0, help='number of folders between the patient folder and the sequence files')
+    parser.add_argument('--sequence_number_index', default=0, help='index of the sequence number in the file name')
+    args = parser.parse_args()
+
+    input_folder = args.input_folder
+    intermediate_folder_count = int(args.intermediate_folder_count)
+    sequence_number_index = int(args.sequence_number_index)
+
     previous_peaks = None
-    for path, subfolders, files in walk(base_path):
+    for path, subfolders, files in walk(input_folder):
         print(path)
         for filename in files:
             if not filename.endswith("ecg.txt"):
                 continue
 
             split_path = path.split("\\")
-            patient = split_path[-1]
+            patient = split_path[-(intermediate_folder_count+1)]
             print("patient:", patient)
             print(filename)
             split_filename = filename.split(".")
-            sequence = int(split_filename[0][4:])
+            sequence = int(split_filename[0][sequence_number_index:])
             print("sequence:", sequence)
             # Read ECG file
             file = open(path + "\\" + filename, 'r')
@@ -150,8 +161,14 @@ if __name__ == '__main__':
             ecg = np.array([int(line) for line in lines[1:]])
 
             # Smooth and standardize ECG values
-            coarse_moving_average = get_moving_average(ecg, 201, use_gaussian_kernel=False, mode="valid", pad_values=True)
-            finer_moving_average = get_moving_average(ecg, 51, use_gaussian_kernel=False, mode="valid", pad_values=True)
+            moving_average_size = min(ecg.shape[0], MOVING_AVERAGE_SIZE)
+            if moving_average_size % 2 == 0:
+                moving_average_size -= 1
+            finer_moving_average_size = min(ecg.shape[0], FINER_MOVING_AVERAGE_SIZE)
+            if finer_moving_average_size % 2 == 0:
+                finer_moving_average_size -= 1
+            coarse_moving_average = get_moving_average(ecg, moving_average_size, use_gaussian_kernel=False, mode="valid", pad_values=True)
+            finer_moving_average = get_moving_average(ecg, finer_moving_average_size, use_gaussian_kernel=False, mode="valid", pad_values=True)
             over_moving_average = ecg > finer_moving_average
             standardized_ecg = standardize(ecg - coarse_moving_average)
             smoothed_ecg = get_moving_average(standardized_ecg, 3)
@@ -203,8 +220,8 @@ if __name__ == '__main__':
             positions = more_filtered_peaks / len(ecg)
 
             # Save results
-            # output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
-            # np.save(output_file_name, positions)  # This one creates a .npy file
-            # file = open(output_file_name + ".txt", 'w')
-            # file.writelines(str(positions * frame_count))
-            # file.close()
+            output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
+            np.save(output_file_name, positions)  # This one creates a .npy file
+            file = open(output_file_name + ".txt", 'w')
+            file.writelines(str(positions * frame_count))
+            file.close()

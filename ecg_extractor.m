@@ -1,1 +1,1 @@
-extract_ecgs_in_folder("C:\Users\root\Data");
+extract_ecgs_in_folder("C:\Users\root\Data\sacre_coeur");
