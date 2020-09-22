@@ -1,5 +1,5 @@
 import numpy as np
-from os import walk
+from os import walk, remove
 from matplotlib import pyplot as plt
 from identify_relevant_frames import get_moving_average
 import argparse
@@ -132,14 +132,20 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_folder', default='.', help='input folder in which to search recursively for ecg files (end with .ecg.txt)')
     parser.add_argument('--intermediate_folder_count', default=0, help='number of folders between the patient folder and the sequence files')
-    parser.add_argument('--sequence_number_index', default=0, help='index of the sequence number in the file name')
+    parser.add_argument('--sequence_number_index', default=-1, help='index of the sequence number in the file name. if left to default, will use the whole file name')
+    parser.add_argument('--save_files', default="True", help='whether to save the r-peaks files or not (default True)')
     args = parser.parse_args()
 
     input_folder = args.input_folder
     intermediate_folder_count = int(args.intermediate_folder_count)
     sequence_number_index = int(args.sequence_number_index)
+    save_files = args.save_files == "True"
 
-    previous_peaks = None
+    show_sequences = [
+        ("pt007", 23),
+    ]
+
+    previous_peaks = None  # Used to prevent to show 2 identical ECG signals in a row (happens with biplan sequences)
     for path, subfolders, files in walk(input_folder):
         print(path)
         for filename in files:
@@ -151,7 +157,7 @@ if __name__ == '__main__':
             print("patient:", patient)
             print(filename)
             split_filename = filename.split(".")
-            sequence = int(split_filename[0][sequence_number_index:])
+            sequence = split_filename[0] if sequence_number_index < 0 else int(split_filename[0][sequence_number_index:])
             print("sequence:", sequence)
             # Read ECG file
             file = open(path + "\\" + filename, 'r')
@@ -184,9 +190,32 @@ if __name__ == '__main__':
             more_filtered_peaks = filter_peaks_based_on_narrowness(standardized_ecg, filtered_peaks, MAX_PEAK_WIDTH)
             more_filtered_peaks = np.array(filter_close_peaks(standardized_ecg, more_filtered_peaks))
 
-            if patient == "G14" and sequence == 10 and (previous_peaks is None or len(more_filtered_peaks) != len(previous_peaks) or (more_filtered_peaks - previous_peaks).std() > 0):
+            valid = True
+            # Calculate the distances between peaks
+            distances = []
+            for i in range(1, len(more_filtered_peaks)):
+                distances.append(more_filtered_peaks[i] - more_filtered_peaks[i-1])
+            if len(distances) > 0:
+                distances = np.array(distances)
+                mean = distances.mean()
+                # We need at least 3 peaks to compute the standard deviation
+                if len(distances) > 1:
+                    normalized_std = distances.std() * np.sqrt(len(distances)) / mean
+                    if normalized_std > 0.6:
+                        print(f"Normalized std between peaks is too high ({normalized_std})")
+                        valid = False
+                if more_filtered_peaks[0] - mean * 1.3 > 0 or more_filtered_peaks[-1] + mean * 1.3 < len(ecg):
+                    print("Missing peak at the", "start" if more_filtered_peaks[0] - mean * 1.3 > 0 else "end")
+                    valid = False
+            else:
+                print("Not enough peaks")
+                valid = False
+
+            # Show the R-peaks of selected sequences
+            # if not valid:
+            if (patient, sequence) in show_sequences:  # and (previous_peaks is None or len(more_filtered_peaks) != len(previous_peaks) or (more_filtered_peaks - previous_peaks).std() > 0):
                 plt.subplots_adjust(hspace=0.45)
-                plt.suptitle(f"R-peaks for ({filename})")
+                plt.suptitle(f"R-peaks for {patient} {sequence}")
                 plt.subplot(2, 1, 1)
                 plt.title("ECG and coarse moving average")
                 plt.plot(ecg)
@@ -209,19 +238,25 @@ if __name__ == '__main__':
                 # plt.subplot(5, 1, 5)
                 plt.subplot(2, 1, 2)
                 plt.title("R-peaks filtered with gradient and narrowness")
-                # plt.vlines(more_filtered_peaks, 0, 1, 'red', zorder=2)
+                plt.vlines(more_filtered_peaks, 0, 1, 'red', zorder=2)
                 # plt.plot(standardized_ecg, zorder=1)
                 plt.plot(standardized_ecg, 'red')
                 plt.show()
 
-            previous_peaks = more_filtered_peaks
+            # previous_peaks = more_filtered_peaks
 
             # Calculate R-peak positions in video percentage
             positions = more_filtered_peaks / len(ecg)
 
             # Save results
-            output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
-            np.save(output_file_name, positions)  # This one creates a .npy file
-            file = open(output_file_name + ".txt", 'w')
-            file.writelines(str(positions * frame_count))
-            file.close()
+            if save_files:
+                output_file_name = path + "\\" + filename.replace("ecg.txt", "ecg.r-peaks")
+                if valid:
+                    np.save(output_file_name, positions)  # This one creates a .npy file
+                    file = open(output_file_name + ".txt", 'w')
+                    file.writelines(str(positions * frame_count))
+                    file.close()
+                elif filename.replace("ecg.txt", "ecg.r-peaks.txt") in files:
+                    print("Deleting r-peaks files that were already saved")
+                    remove(output_file_name + ".npy")
+                    remove(output_file_name + ".txt")

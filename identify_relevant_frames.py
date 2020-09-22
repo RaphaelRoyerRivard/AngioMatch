@@ -256,7 +256,7 @@ if __name__ == '__main__':
     #     36, 47, 29.5, 45, 40, 29, 43, 32,  # P32
     #     41, 30.5  # SB-6
     # ]
-    base_path = r'C:\Users\root\Data\Angiographie\sacre_coeur'
+    base_path = r'C:\Users\root\Data\Angiographie_new'
     for path, subfolders, files in walk(base_path):
 
         video_statistics = get_video_statistics(files)
@@ -268,7 +268,7 @@ if __name__ == '__main__':
 
         split_path = path.split("\\export\\")
         angle = split_path[1]
-        patient = split_path[0].split("\\Angiographie\\")[1]
+        patient = split_path[0].split("\\")[-1]
 
         print(patient, angle)
 

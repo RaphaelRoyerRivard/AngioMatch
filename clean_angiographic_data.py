@@ -4,7 +4,7 @@ import numpy as np
 
 
 if __name__ == '__main__':
-    input_folder = r'C:\Users\root\Data\Angiographie\sacre_coeur'
+    input_folder = r'C:\Users\root\Data\Angiographie_new'
 
     for path, subfolders, files in walk(input_folder):
         print(path)
