@@ -142,7 +142,7 @@ if __name__ == '__main__':
     save_files = args.save_files == "True"
 
     show_sequences = [
-        ("pt007", 23),
+        ("test", '0'),
     ]
 
     previous_peaks = None  # Used to prevent to show 2 identical ECG signals in a row (happens with biplan sequences)
@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
             # Find and filter R-peaks
             # ecg_peaks = find_peaks(standardized_ecg, MIN_PEAK_RATIO_COMPARED_TO_MEAN)
-            ecg_peaks = find_peaks(standardized_ecg, filter=over_moving_average)
+            ecg_peaks = np.array(find_peaks(standardized_ecg, filter=over_moving_average))
             gradient_positive_peaks = np.array(find_peaks(gradient, min_peak_ratio=MIN_GRADIENT_PEAK_RATIO_COMPARED_TO_MEAN))
             gradient_negative_peaks = np.array(find_peaks(1 - gradient, min_peak_ratio=MIN_GRADIENT_PEAK_RATIO_COMPARED_TO_MEAN))
             filtered_peaks = filter_peaks_based_on_derivative(ecg_peaks, gradient_positive_peaks, gradient_negative_peaks, gradient)
@@ -216,31 +216,31 @@ if __name__ == '__main__':
             if (patient, sequence) in show_sequences:  # and (previous_peaks is None or len(more_filtered_peaks) != len(previous_peaks) or (more_filtered_peaks - previous_peaks).std() > 0):
                 plt.subplots_adjust(hspace=0.45)
                 plt.suptitle(f"R-peaks for {patient} {sequence}")
-                plt.subplot(2, 1, 1)
+                plt.subplot(4, 1, 1)
                 plt.title("ECG and coarse moving average")
                 plt.plot(ecg)
                 plt.plot(coarse_moving_average)
                 plt.plot(finer_moving_average)
-                # plt.subplot(5, 1, 2)
-                # plt.title("Unfiltered peaks")
-                # plt.vlines(ecg_peaks, 0, 1, 'red')
-                # plt.plot(standardized_ecg, zorder=1)
-                # plt.subplot(5, 1, 3)
-                # plt.title("Positive and negative peaks of gradient")
-                # plt.vlines(gradient_positive_peaks, 0, 1, 'red')
-                # plt.vlines(gradient_negative_peaks, 0, 1, 'green')
+                plt.subplot(4, 1, 2)
+                plt.title("Unfiltered peaks")
+                plt.vlines(ecg_peaks, 0, 1, 'orange')
+                plt.plot(standardized_ecg, zorder=1)
+                plt.subplot(4, 1, 3)
+                plt.title("Positive and negative peaks of gradient")
+                plt.vlines(gradient_positive_peaks, 0, 1, 'green')
+                plt.vlines(gradient_negative_peaks, 0, 1, 'red')
                 # plt.hlines(gradient.mean() * MIN_GRADIENT_PEAK_RATIO_COMPARED_TO_MEAN, 0, len(standardized_ecg), 'purple', zorder=2)
-                # plt.plot(gradient)
+                plt.plot(gradient)
                 # plt.subplot(5, 1, 4)
                 # plt.title("R-peaks filtered with gradient")
                 # plt.vlines(filtered_peaks, 0, 1, 'red')
                 # plt.plot(standardized_ecg)
                 # plt.subplot(5, 1, 5)
-                plt.subplot(2, 1, 2)
+                plt.subplot(4, 1, 4)
                 plt.title("R-peaks filtered with gradient and narrowness")
                 plt.vlines(more_filtered_peaks, 0, 1, 'red', zorder=2)
                 # plt.plot(standardized_ecg, zorder=1)
-                plt.plot(standardized_ecg, 'red')
+                plt.plot(standardized_ecg)
                 plt.show()
 
             # previous_peaks = more_filtered_peaks
